@@ -1,0 +1,29 @@
+{
+  "trips": [
+    {
+      "id": "",
+      "name": "",
+      "status": "",
+      "client": "",
+      "direction": "",
+      "numberOfPoeple": "",
+      "notes": "",
+      "folder": "",
+      "route": [],
+      "begining": "",
+      "end": "",
+      "days": 0,
+      "tripDays": [
+        {
+          "id": "",
+          "transport": "",
+          "tourLeader": "",
+          "guide": "",
+          "hotel": "",
+          "restaurant": "",
+          "other": ""
+        }
+      ]
+    }
+  ]
+}
