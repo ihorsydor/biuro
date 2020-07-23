@@ -33,12 +33,12 @@ export const TripForm = () => {
 
   const handleSubmit = (values) => {
     console.log(values);
-    firebase.database().ref('trips').push({ ...values, id: uuid.v4() }).then(data => {
+    firebase.database().ref('trips').push({...values, id: uuid.v4() }).then(data => {
       alert('Data submitted')
       console.log(data)
     })
   }
-
+  
 
   return (
     <Form
@@ -52,6 +52,22 @@ export const TripForm = () => {
       initialValues={{
         size: componentSize,
         days: 1,
+        route: "",
+        direction: "",
+        notes: "",
+        folder: "",
+        [`hotel_${[`hotel_0`]}`]:"",
+        [`restaurant${['restaurant_0']}`]: "",
+        [`diningHours${['diningHours_0']}`]: "",
+        [`pilot${['pilot_0']}`]:"",
+        [`guide${['guide_0']}`]: "",
+        [`guideWorkHours${['guideWorkHours_0']}`]:"",
+        [`transport${['transport_0']}`]: "",
+        [`driver${['drivers_0']}`]: "",
+        [`transportWorkHours${['transpotWorkHours_0']}`]:"",
+        [`dayroute${["dayroute_0"]}`]:"",
+        [`other${["others_0"]}`]:"",
+
       }}
       onValuesChange={onValuesChange}
       size={componentSize}
@@ -60,6 +76,7 @@ export const TripForm = () => {
       <Form.Item label="Nazwa Imprezy" name="name"  rules={[{ required: true }]}>
         <Input />
       </Form.Item>
+     
       <Form.Item label="Status" name="status" rules={[{ required: true }]}>
         <Select>
           <Select.Option value="zapytanie">Zapytanie</Select.Option>
@@ -71,11 +88,11 @@ export const TripForm = () => {
         </Select>
       </Form.Item>
 
-      <Form.Item label="Cała trasa">
+      <Form.Item label="Cała trasa" name = "route">
         <Select mode="tags" />
       </Form.Item>
 
-      <Form.Item label="Kierunek" name="direction" rules={[{ required: true }]}>
+      <Form.Item label="Kierunek" name="direction">
         <Cascader
 
           options={[
@@ -93,20 +110,16 @@ export const TripForm = () => {
         />
       </Form.Item>
 
-      <Form.Item label="Ilość uczestników/pilot/kierowcy" name="numberOfPeople" rules={[{ required: true }]}>
-        <InputNumber /><InputNumber name="numberOfPeople" /><InputNumber name="numberOfPeople" />
-      </Form.Item>
-
-      <Form.Item label="Wszystkie notatki" name="notes" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Folder" name="folder" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Trasa" name="route" rules={[{ required: true }]}>
+      <Form.Item label="Ilość uczestników/pilot/kierowcy"  >
         <InputNumber />
+      </Form.Item>
+
+      <Form.Item label="Wszystkie notatki" name="notes" >
+        <Input />
+      </Form.Item>
+
+      <Form.Item label="Folder" name="folder" >
+        <Input />
       </Form.Item>
 
       <Form.Item label="Data imprezy" name="begining" rules={[{ required: true }]}>
@@ -120,7 +133,7 @@ export const TripForm = () => {
       <Tabs>
         {Array(parseInt(daysCount, 10)).fill('0').map((item, index) =>
           <Tabs.TabPane tab={`Day ${index + 1}`} key={index.toString()}>
-            <Form.Item label="Hotel" name={`hotel_${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Hotel" name={`hotel_${index}`}>
               <Select>
                 <Select.Option value="lviv">Hotel Lwów</Select.Option>
                 <Select.Option value="george">Hotel George</Select.Option>
@@ -130,7 +143,7 @@ export const TripForm = () => {
               {/* Wybierz z Bazy <DatabaseOutlined />Usuń hotel<MinusOutlined />Dodaj kolejny hotel<PlusOutlined /> */}
             </Form.Item>
 
-            <Form.Item label="Restaurant" name={`restaurant${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Restaurant" name={`restaurant${index}`} >
 
               <Select>
                 <Select.Option value="lviv1rest">Restauracja 1</Select.Option>
@@ -140,13 +153,13 @@ export const TripForm = () => {
 
             </Form.Item>
 
-            <Form.Item label="Godziny posiłku" name={`diningHours${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Godziny posiłku" name={`diningHours${index}`} >
               <TimePicker.RangePicker />
             </Form.Item>
 
 
 
-            <Form.Item label="Pilot" name={`pilot${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Pilot" name={`pilot${index}`} >
 
               <Select>
                 <Select.Option value="namepilot1">Pilot1</Select.Option>
@@ -156,7 +169,7 @@ export const TripForm = () => {
             </Form.Item>
 
 
-            <Form.Item label="Przewodnik" name={`quide${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Przewodnik" name={`guide${index}`} >
 
               <Select>
                 <Select.Option value="nameguide1">Restauracja 1</Select.Option>
@@ -164,12 +177,12 @@ export const TripForm = () => {
 
               </Select>
 
-              <Form.Item label="Godziny pracy przewodnika" name={`guideWorkHours${index}`} rules={[{ required: true }]}>
+              <Form.Item label="Godziny pracy przewodnika" name={`guideWorkHours${index}`} >
                 <TimePicker.RangePicker />
               </Form.Item>
             </Form.Item>
 
-            <Form.Item label="Transport" name={`transport${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Transport" name={`transport${index}`} >
 
               <Select>
                 <Select.Option value="transport1">Przewośnik1</Select.Option>
@@ -177,31 +190,31 @@ export const TripForm = () => {
 
               </Select>
             </Form.Item>
-            <Form.Item label="Kierowca" name={`driver${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Kierowca" name={`driver${index}`}  >
               <Select>
                 <Select.Option value="kierowca1">Driver 1</Select.Option>
                 <Select.Option value="kierowca2">Driver 2</Select.Option>
 
               </Select>
             </Form.Item>
-            <Form.Item label="Godziny pracy transportu" name={`transportWorkHours${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Godziny pracy transportu" name={`transportWorkHours${index}`}  >
               <TimePicker.RangePicker />
-              Dodaj  kolejnego kierowcę <PlusOutlined />
+             {/* Dodaj  kolejnego kierowcę <PlusOutlined />
               Dodaj  kolejnego przewoźnika <PlusOutlined />
               Usuń kierowcę<MinusOutlined />
               Usuń przewoźnika<MinusOutlined />
               Wybierz z bazy kierowcę <DatabaseOutlined />
-              Wybierz z bazy przewoźnika <DatabaseOutlined />
+             Wybierz z bazy przewoźnika <DatabaseOutlined />*/}
 
 
             </Form.Item>
 
-            <Form.Item label="Trasa" name={`route${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Trasa" name={`dayroute${index}`} >
               <Select mode="tags" />
             </Form.Item>
 
 
-            <Form.Item label="Inne" name={`other${index}`} rules={[{ required: true }]}>
+            <Form.Item label="Inne" name={`other${index}`} >
               <Cascader
 
                 options={[
@@ -238,7 +251,8 @@ export const TripForm = () => {
             </Form.Item>
           </Tabs.TabPane>
         )}
-      </Tabs>
+              </Tabs> 
+           
 
       <Form.Item label="Button">
         <Button type="primary" style={{ width: '100px' }} htmlType="submit">Submit</Button>
