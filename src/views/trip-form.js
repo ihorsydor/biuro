@@ -32,7 +32,8 @@ export const TripForm = () => {
   };
 
   const handleSubmit = (values) => {
-    console.log(values);
+    Object.keys(values).forEach(key => values[key] === undefined && delete values[key])
+    console.log('values', values)
     firebase.database().ref('trips').push({...values, id: uuid.v4() }).then(data => {
       alert('Data submitted')
       console.log(data)
